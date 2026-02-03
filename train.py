@@ -63,14 +63,15 @@ def main():
 
     normalized_data = (training_data - mean) / std
     learning_rate = 0.1
-    mileages, prices = np.split(normalized_data, 2, axis=1)
+    n_milages, n_prices = np.split(normalized_data, 2, axis=1)
     m = float(len(normalized_data))
     threshold = 0.0001
 
     while True:
-        g0 = np.sum(estimate_price(t0, t1, mileages) - prices) / m
+        g0 = np.sum(estimate_price(t0, t1, n_milages) - n_prices) / m
         g1 = (
-            np.sum(np.multiply(estimate_price(t0, t1, mileages) - prices, mileages)) / m
+            np.sum(np.multiply(estimate_price(t0, t1, n_milages) - n_prices, n_milages))
+            / m
         )
 
         if (
@@ -94,6 +95,7 @@ def main():
 
     t1 = t1 * (std_y / std_x)
     t0 = (t0 * std_y + mean_y) - (t1 * mean_x)
+    milages, prices = np.split(training_data, 2, axis=1)
 
     plot(t0, t1, color="green", label="Trained model")
     plt.scatter(
@@ -113,6 +115,10 @@ def main():
     except PermissionError:
         print("Cannot write to model file.")
         return 1
+
+    errors = np.abs(estimate_price(t0, t1, milages) - prices)
+    precision = np.sum(1 - errors / prices) / m
+    print(f"precision: {precision * 100}%")
 
 
 if __name__ == "__main__":
