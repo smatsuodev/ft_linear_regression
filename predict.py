@@ -13,10 +13,9 @@ def main():
     try:
         with open(model_path) as f:
             theta0, theta1 = map(float, f.read().split(","))
-
     except FileNotFoundError:
-        print("Model file not found.")
-        return 1
+        with open(model_path, "w") as f:
+            f.write("0,0")
 
     except ValueError:
         print("Invalid model.")
