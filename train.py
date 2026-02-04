@@ -30,7 +30,12 @@ def main():
         with open(model_path) as f:
             t0, t1 = list(map(float, f.read().split(",")))
     except FileNotFoundError:
-        print("Model file not found.")
+        print("Model file not found. Creating a new one with default parameters.")
+        t0, t1 = 0.0, 0.0
+        with open(model_path, "w") as f:
+            f.write("0,0")
+    except PermissionError:
+        print("Cannot read model file.")
         return 1
     except ValueError:
         print("Invalid model.")

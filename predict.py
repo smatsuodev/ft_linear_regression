@@ -17,6 +17,8 @@ def main():
         with open(model_path, "w") as f:
             f.write("0,0")
 
+        theta0, theta1 = 0, 0
+
     except ValueError:
         print("Invalid model.")
         return 1
@@ -32,4 +34,7 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except Exception:
+        print("Something went wrong.", file=sys.stderr)
