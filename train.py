@@ -112,7 +112,7 @@ def main():
     plt.xlabel("mileage")
     plt.ylabel("price")
     plt.legend()
-    plt.show()
+    plt.savefig("train.png", format="png")
 
     try:
         with open(model_path, "w") as f:
